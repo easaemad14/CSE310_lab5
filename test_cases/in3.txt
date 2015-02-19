@@ -1,0 +1,45 @@
+31
+Insertion
+FSE301/Entrepreneurship for Engineers
+FSE494/EPICS in Action
+PHY554/Electron Microscopy II
+PHY576/Quantum Theory
+CSE450/Design and Analysis of Algorithms
+CSE550/Combinatorial Algorithms
+CSE552/Randomized and Approximation Algorithms
+CSE572/Data Mining
+CSE515/Multimedia and Web Databases
+ENG302/Business Writing
+ENG307/Writing Science Fiction
+MAT462/Applied Partial Diff Equations
+MAT476/Partial Diff Equations
+MAT513/Intro to Graph Theory
+MAT517/Graph Theory II
+ENG374/Technical Editing
+ENG394/The Dream Poem
+EEE554/Random Signal Theory
+EEE552/Digital Communications
+CHM520/Chemical Biology
+CHM535/Medicinal Chemistry
+PHY321/Vector Mechanics and Vibration
+PHY500/Research Methods
+MAT544/Abstract Algebra II
+MAT571/Real Analysis II
+MAT573/Complex Analysis II
+MAT243/Discrete Math Structures
+MAT242/Elementary Linear Algebra
+Search
+FSE301
+PHY321
+ENG202
+MAT476
+CHM521
+Delete
+EEE554/Random Signal Theory
+MAT544/Abstract Algebra II
+MAT294/Intro to Mathematical Writing
+PHY101/Introduction to Mechanical Energy
+CSE515/Multimedia and Web Databases
+EEE554/Random Signal Theory
+Display
+

@@ -1,0 +1,38 @@
+9
+Insertion
+ENG101/First-Year Composition
+ENG102/First-Year Composition
+PHY111/General Physics I
+PHY113/General Physics Laboratory
+CHM116/General Chemistry II
+CHM113/General Chemistry I
+CSE310/Data Structures and Algorithm
+CSE301/Computing Ethics
+ENG108/First-Year Composition
+ENG200/Critical Reading & Writing About Literature
+MAT243/Discrete Math Structures
+MAT242/Elementary Linear Algebra
+MAT201/Brief Calculus
+MAT265/Calculus for Engineers I
+PHY252/Physics III
+PHY101/Introduction to Physics
+CSE240/Introduction to Programming Languages
+CSE220/Programming for Computer Engineering
+EEE120/Digital Design Fundamentals
+EEE230/Computer Organization and Assembly Language Programming
+FSE100/Introduction to Engineering
+ASU101/The ASU Experience
+Search
+ASU101
+ENG102
+EEE320
+PHY111
+Delete
+CSE240/Introduction to Programming Languages
+MAT265/Calculus for Engineers I
+MAT242/Discrete Math Structures
+ENG102/First-Year Composition
+MAT242/Elementary Linear Algebra
+ENG200/Critical Reading & Writing About Literature
+PHY252/Physics II
+Display

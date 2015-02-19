@@ -1,0 +1,137 @@
+Please enter a hash table size:
+
+index: 0, linked list size: 1
+Course Number: ENG200, Course Title: Critical Reading & Writing About Literature
+
+index: 1, linked list size: 3
+Course Number: EEE120, Course Title: Digital Design Fundamentals
+Course Number: CSE220, Course Title: Programming for Computer Engineering
+Course Number: MAT201, Course Title: Brief Calculus
+
+index: 2, linked list size: 1
+Course Number: CSE240, Course Title: Introduction to Programming Languages
+
+index: 3, linked list size: 1
+Course Number: PHY252, Course Title: Physics III
+
+index: 4, linked list size: 2
+Course Number: MAT242, Course Title: Elementary Linear Algebra
+Course Number: PHY111, Course Title: General Physics I
+
+index: 5, linked list size: 3
+Course Number: MAT243, Course Title: Discrete Math Structures
+Course Number: CSE310, Course Title: Data Structures and Algorithm
+Course Number: ENG101, Course Title: First-Year Composition
+
+index: 6, linked list size: 3
+Course Number: EEE230, Course Title: Computer Organization and Assembly Language Programming
+Course Number: PHY113, Course Title: General Physics Laboratory
+Course Number: ENG102, Course Title: First-Year Composition
+
+index: 7, linked list size: 0
+The list is empty
+
+index: 8, linked list size: 2
+Course Number: MAT265, Course Title: Calculus for Engineers I
+Course Number: ASU101, Course Title: The ASU Experience
+
+index: 9, linked list size: 0
+The list is empty
+
+index: 10, linked list size: 0
+The list is empty
+
+index: 11, linked list size: 2
+Course Number: CHM113, Course Title: General Chemistry I
+Course Number: FSE100, Course Title: Introduction to Engineering
+
+index: 12, linked list size: 2
+Course Number: PHY101, Course Title: Introduction to Physics
+Course Number: ENG108, Course Title: First-Year Composition
+
+index: 13, linked list size: 0
+The list is empty
+
+index: 14, linked list size: 2
+Course Number: CHM116, Course Title: General Chemistry II
+Course Number: CSE301, Course Title: Computing Ethics
+
+index: 15, linked list size: 0
+The list is empty
+
+index: 16, linked list size: 0
+The list is empty
+
+
+The course FSE101 not found
+The course EEE120 has the title: Digital Design Fundamentals
+The course ENG200 has the title: Critical Reading & Writing About Literature
+The course MAT243 has the title: Discrete Math Structures
+The course PHY253 not found
+
+Course Number MAT221 with Title Brief Calculus not found
+Course Number EEE120 with Title Digital Design Fundamentals is removed
+Course Number ASU102 with Title The ASU Experience not found
+Course Number PHY101 with Title Introduction to Mechanical Energy not found
+Course Number CHM213 with Title General Chemistry III not found
+Course Number PHY113 with Title General Physics Laboratory is removed
+
+index: 0, linked list size: 1
+Course Number: ENG200, Course Title: Critical Reading & Writing About Literature
+
+index: 1, linked list size: 2
+Course Number: CSE220, Course Title: Programming for Computer Engineering
+Course Number: MAT201, Course Title: Brief Calculus
+
+index: 2, linked list size: 1
+Course Number: CSE240, Course Title: Introduction to Programming Languages
+
+index: 3, linked list size: 1
+Course Number: PHY252, Course Title: Physics III
+
+index: 4, linked list size: 2
+Course Number: MAT242, Course Title: Elementary Linear Algebra
+Course Number: PHY111, Course Title: General Physics I
+
+index: 5, linked list size: 3
+Course Number: MAT243, Course Title: Discrete Math Structures
+Course Number: CSE310, Course Title: Data Structures and Algorithm
+Course Number: ENG101, Course Title: First-Year Composition
+
+index: 6, linked list size: 2
+Course Number: EEE230, Course Title: Computer Organization and Assembly Language Programming
+Course Number: ENG102, Course Title: First-Year Composition
+
+index: 7, linked list size: 0
+The list is empty
+
+index: 8, linked list size: 2
+Course Number: MAT265, Course Title: Calculus for Engineers I
+Course Number: ASU101, Course Title: The ASU Experience
+
+index: 9, linked list size: 0
+The list is empty
+
+index: 10, linked list size: 0
+The list is empty
+
+index: 11, linked list size: 2
+Course Number: CHM113, Course Title: General Chemistry I
+Course Number: FSE100, Course Title: Introduction to Engineering
+
+index: 12, linked list size: 2
+Course Number: PHY101, Course Title: Introduction to Physics
+Course Number: ENG108, Course Title: First-Year Composition
+
+index: 13, linked list size: 0
+The list is empty
+
+index: 14, linked list size: 2
+Course Number: CHM116, Course Title: General Chemistry II
+Course Number: CSE301, Course Title: Computing Ethics
+
+index: 15, linked list size: 0
+The list is empty
+
+index: 16, linked list size: 0
+The list is empty

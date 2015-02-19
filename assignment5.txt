@@ -1,0 +1,520 @@
+
+    CSE310 Assignment #5
+
+
+      Due Date
+
+Friday, March 6th, 5:30pm
+
+It must be submitted on-line.
+
+*/_No late assignment will be accepted._/*
+
+*/_Important: This is an individual assignment. Please do not
+collaborate. _/*
+
+*/_Make sure that you write every line of your code. Using code written
+by someone else will be considered a violation of the academic integrity
+and will result in a report to the Dean's office. _/*
+
+
+      Minimal Submitted Files
+
+
+       
+
+
+      You are required to turn in the following source file(s) in C++:
+
+
+      Assignment5.cpp
+
+
+      You can also submit additional files.
+
+
+      Objectives:
+
+
+      ·      This assignment is to practice making hash tables.
+
+
+      Program Description
+
+You will develop a C++ program that reads an input data set consisting
+of four parts: the first part is a hash table size entered by a user;
+the second part is a list of course numbers followed by its title; the
+third part is an unordered list of course numbers; the fourth part is a
+list of course numbers with its title to delete. Not all course numbers
+in the third part or in the fourth part will match course numbers in the
+second part.
+
+The first and second parts of the input will be separated by the word
+"Insertion", the second and third parts of the input will be separated
+by the word "Search", and the third and fourth parts of the input will
+be separate by the word "Delete" The fourth part ends with the line
+containing the word "Display".
+The following shows a sample input:
+
+/17
+Insertion
+FSE100/Introduction to Engineering
+ASU101/The ASU Experience
+ENG101/First-Year Composition
+ENG102/First-Year Composition
+PHY111/General Physics I
+PHY113/General Physics Laboratory
+CSE310/Data Structures and Algorithm
+CSE301/Computing Ethics
+ENG108/First-Year Composition
+ENG200/Critical Reading & Writing About Literature
+MAT243/Discrete Math Structures
+MAT242/Elementary Linear Algebra
+MAT201/Brief Calculus
+MAT265/Calculus for Engineers I
+PHY252/Physics III
+PHY101/Introduction to Physics
+CSE240/Introduction to Programming Languages
+CSE220/Programming for Computer Engineering
+EEE120/Digital Design Fundamentals
+EEE230/Computer Organization and Assembly Language Programming
+CHM116/General Chemistry II
+CHM113/General Chemistry I
+Search
+FSE101
+EEE120
+ENG200
+MAT243
+PHY253
+Delete
+MAT221/Brief Calculus
+EEE120/Digital Design Fundamentals
+ASU102/The ASU Experience
+PHY101/Introduction to Mechanical Energy
+CHM213/General Chemistry III
+PHY113/General Physics Laboratory
+Display/
+
+*Design Requirements:*
+
+You need to create a hash table with chaining, which is an array of
+linked lists. It utilizes memory efficiently. When hashing keys, keep
+track of the length of each linked list in the hash table, and the
+difference of these lengths should be small in order to be efficient.
+You also need to define _a hash function_, _INSERT_,_SEARCH_, and
+_DELETE_ functions for the hash table.
+
+For the INSERT function, add a new element at the beginning of a linked
+list where it is hashed so that it can be done in O(1).
+
+Your program needs to read in the first input number and use it as the
+hash table size.
+
+Each slot of your hash table should contain a linked list which is
+initially empty (with its size 0). After processing and inserting the
+second part of the data into your hash table, print the content of the
+hash table using their index using the following format:
+
+/ /
+
+//
+
+/index: 0, linked list size: 1
+Course Number: ENG200, Course Title: Critical Reading & Writing About Literature
+
+index: 1, linked list size: 3
+Course Number: EEE120, Course Title: Digital Design Fundamentals
+Course Number: CSE220, Course Title: Programming for Computer Engineering
+Course Number: MAT201, Course Title: Brief Calculus
+
+index: 2, linked list size: 1
+Course Number: CSE240, Course Title: Introduction to Programming Languages
+
+index: 3, linked list size: 1
+Course Number: PHY252, Course Title: Physics III
+
+index: 4, linked list size: 2
+Course Number: MAT242, Course Title: Elementary Linear Algebra
+Course Number: PHY111, Course Title: General Physics I
+
+index: 5, linked list size: 3
+Course Number: MAT243, Course Title: Discrete Math Structures
+Course Number: CSE310, Course Title: Data Structures and Algorithm
+Course Number: ENG101, Course Title: First-Year Composition
+
+index: 6, linked list size: 3
+Course Number: EEE230, Course Title: Computer Organization and Assembly Language Programming
+Course Number: PHY113, Course Title: General Physics Laboratory
+Course Number: ENG102, Course Title: First-Year Composition
+
+index: 7, linked list size: 0
+The list is empty
+
+index: 8, linked list size: 2
+Course Number: MAT265, Course Title: Calculus for Engineers I
+Course Number: ASU101, Course Title: The ASU Experience
+
+index: 9, linked list size: 0
+The list is empty
+
+index: 10, linked list size: 0
+The list is empty
+
+index: 11, linked list size: 2
+Course Number: CHM113, Course Title: General Chemistry I
+Course Number: FSE100, Course Title: Introduction to Engineering
+
+index: 12, linked list size: 2
+Course Number: PHY101, Course Title: Introduction to Physics
+Course Number: ENG108, Course Title: First-Year Composition
+
+index: 13, linked list size: 0
+The list is empty
+
+index: 14, linked list size: 2
+Course Number: CHM116, Course Title: General Chemistry II
+Course Number: CSE301, Course Title: Computing Ethics
+
+index: 15, linked list size: 0
+The list is empty
+
+index: 16, linked list size: 0
+The list is empty
+/
+
+//
+
+/ /
+
+Then read the third part of the input, and search if each element with
+its course number in the hash table. If it exists, then print out its
+title and publisher, and if it does not exist, print the course number
+and ”not found”:
+
+//
+
+/The course FSE101 not found
+The course EEE120 has the title: Digital Design Fundamentals
+The course ENG200 has the title: Critical Reading & Writing About Literature
+The course MAT243 has the title: Discrete Math Structures
+The course PHY253 not found
+/
+
+//
+
+Then read the fourth part of the input, and search and delete if each
+item with exists in the hash table. If it exists, then print its course
+number and course title, and ”is removed” such as below (if there are
+more than one with the same set of course number and title, then remove
+all duplicates). If not, then print its course number and course title,
+and ”not found”:
+
+//
+
+/Course Number MAT221 with Title Brief Calculus not found
+Course Number EEE120 with Title Digital Design Fundamentals is removed
+Course Number ASU102 with Title The ASU Experience not found
+Course Number PHY101 with Title Introduction to Mechanical Energy not found
+Course Number CHM213 with Title General Chemistry III not found
+Course Number PHY113 with Title General Physics Laboratory is removed
+/
+
+//
+
+After this, */print the updated hash table again/* using the same format
+as the one used after the part 1.
+Please see the sample output file to format your output.
+
+*Sample Run (user input is in bold):*
+
+Please enter a hash table size:
+*17
+Insertion
+FSE100/Introduction to Engineering
+ASU101/The ASU Experience
+ENG101/First-Year Composition
+ENG102/First-Year Composition
+PHY111/General Physics I
+PHY113/General Physics Laboratory
+CSE310/Data Structures and Algorithm
+CSE301/Computing Ethics
+ENG108/First-Year Composition
+ENG200/Critical Reading & Writing About Literature
+MAT243/Discrete Math Structures
+MAT242/Elementary Linear Algebra
+MAT201/Brief Calculus
+MAT265/Calculus for Engineers I
+PHY252/Physics III
+PHY101/Introduction to Physics
+CSE240/Introduction to Programming Languages
+CSE220/Programming for Computer Engineering
+EEE120/Digital Design Fundamentals
+EEE230/Computer Organization and Assembly Language Programming
+CHM116/General Chemistry II
+CHM113/General Chemistry I
+Search
+*
+index: 0, linked list size: 1
+Course Number: ENG200, Course Title: Critical Reading & Writing About
+Literature
+
+index: 1, linked list size: 3
+Course Number: EEE120, Course Title: Digital Design Fundamentals
+Course Number: CSE220, Course Title: Programming for Computer Engineering
+Course Number: MAT201, Course Title: Brief Calculus
+
+index: 2, linked list size: 1
+Course Number: CSE240, Course Title: Introduction to Programming Languages
+
+index: 3, linked list size: 1
+Course Number: PHY252, Course Title: Physics III
+
+index: 4, linked list size: 2
+Course Number: MAT242, Course Title: Elementary Linear Algebra
+Course Number: PHY111, Course Title: General Physics I
+
+index: 5, linked list size: 3
+Course Number: MAT243, Course Title: Discrete Math Structures
+Course Number: CSE310, Course Title: Data Structures and Algorithm
+Course Number: ENG101, Course Title: First-Year Composition
+
+index: 6, linked list size: 3
+Course Number: EEE230, Course Title: Computer Organization and Assembly
+Language Programming
+Course Number: PHY113, Course Title: General Physics Laboratory
+Course Number: ENG102, Course Title: First-Year Composition
+
+index: 7, linked list size: 0
+The list is empty
+
+index: 8, linked list size: 2
+Course Number: MAT265, Course Title: Calculus for Engineers I
+Course Number: ASU101, Course Title: The ASU Experience
+
+index: 9, linked list size: 0
+The list is empty
+
+index: 10, linked list size: 0
+The list is empty
+
+index: 11, linked list size: 2
+Course Number: CHM113, Course Title: General Chemistry I
+Course Number: FSE100, Course Title: Introduction to Engineering
+
+index: 12, linked list size: 2
+Course Number: PHY101, Course Title: Introduction to Physics
+Course Number: ENG108, Course Title: First-Year Composition
+
+index: 13, linked list size: 0
+The list is empty
+
+index: 14, linked list size: 2
+Course Number: CHM116, Course Title: General Chemistry II
+Course Number: CSE301, Course Title: Computing Ethics
+
+index: 15, linked list size: 0
+The list is empty
+
+index: 16, linked list size: 0
+The list is empty
+
+
+*FSE101*
+The course FSE101 not found
+*EEE120*
+The course EEE120 has the title: Digital Design Fundamentals
+*ENG200*
+The course ENG200 has the title: Critical Reading & Writing About Literature
+*MAT243*
+The course MAT243 has the title: Discrete Math Structures
+*PHY253*
+The course PHY253 not found
+*Delete*
+
+*MAT221/Brief Calculus*
+Course Number MAT221 with Title Brief Calculus not found
+*EEE120/Digital Design Fundamentals*
+Course Number EEE120 with Title Digital Design Fundamentals is removed
+*ASU102/The ASU Experience*
+Course Number ASU102 with Title The ASU Experience not found
+*PHY101/Introduction to Mechanical Energy*
+Course Number PHY101 with Title Introduction to Mechanical Energy not found
+*CHM213/General Chemistry III*
+Course Number CHM213 with Title General Chemistry III not found
+*PHY113/General Physics Laboratory*
+Course Number PHY113 with Title General Physics Laboratory is removed
+*Display*
+
+index: 0, linked list size: 1
+Course Number: ENG200, Course Title: Critical Reading & Writing About
+Literature
+
+index: 1, linked list size: 2
+Course Number: CSE220, Course Title: Programming for Computer Engineering
+Course Number: MAT201, Course Title: Brief Calculus
+
+index: 2, linked list size: 1
+Course Number: CSE240, Course Title: Introduction to Programming Languages
+
+index: 3, linked list size: 1
+Course Number: PHY252, Course Title: Physics III
+
+index: 4, linked list size: 2
+Course Number: MAT242, Course Title: Elementary Linear Algebra
+Course Number: PHY111, Course Title: General Physics I
+
+index: 5, linked list size: 3
+Course Number: MAT243, Course Title: Discrete Math Structures
+Course Number: CSE310, Course Title: Data Structures and Algorithm
+Course Number: ENG101, Course Title: First-Year Composition
+
+index: 6, linked list size: 2
+Course Number: EEE230, Course Title: Computer Organization and Assembly
+Language Programming
+Course Number: ENG102, Course Title: First-Year Composition
+
+index: 7, linked list size: 0
+The list is empty
+
+index: 8, linked list size: 2
+Course Number: MAT265, Course Title: Calculus for Engineers I
+Course Number: ASU101, Course Title: The ASU Experience
+
+index: 9, linked list size: 0
+The list is empty
+
+index: 10, linked list size: 0
+The list is empty
+
+index: 11, linked list size: 2
+Course Number: CHM113, Course Title: General Chemistry I
+Course Number: FSE100, Course Title: Introduction to Engineering
+
+index: 12, linked list size: 2
+Course Number: PHY101, Course Title: Introduction to Physics
+Course Number: ENG108, Course Title: First-Year Composition
+
+index: 13, linked list size: 0
+The list is empty
+
+index: 14, linked list size: 2
+Course Number: CHM116, Course Title: General Chemistry II
+Course Number: CSE301, Course Title: Computing Ethics
+
+index: 15, linked list size: 0
+The list is empty
+
+index: 16, linked list size: 0
+The list is empty
+
+* *
+
+*Implementation/Documentation Requirements:*
+
+  * You need implement this program using C++ and it has to read from
+    the standard input (from a keyboard).
+  * Your program needs to compile and execute in general.asu.edu.
+  * You need to define a LinkedList class with Insert, Search, and
+    Remove functions (name them insertElement, searchElement, and
+    deleteElement) clearly in your code.
+  * You need to define a HashTable class with Insert, Search, and Remove
+    functions (name them insertElement, searchElement, and
+    deleteElement), and a hash function /h/ clearly in your code. The
+    insertElement function in HashTable class should call the
+    insertElement function in LinkedList class. The searchElement
+    function in HashTable class should call the searchElement function
+    in LinkedList class. The deleteElement function in HashTable class
+    should call the deleteElement function in LinkedList class.
+  * Your code should be well documented and commented.
+  * You must use the provided data sets.
+  * Also you are not allowed to use any predefined data structures (such
+    as ones in the library in C++, etc.) except arrays and strings, you
+    need to build your own data structures and operations associated
+    with them (such as Insert or Search).
+  * Copying any codes from other people's programs is considered to be
+    cheating and will lead to a report to the Dean and you will be
+    penalized. Also check the rules stated in the syllabus of the course
+    regarding the academic integrity
+
+ 
+
+*What to turn in:*
+
+You must turn in C++ source code using the following submission site:
+
+https://courses.eas.asu.edu/cse310/
+
+First, you need to login, and click on the *Submission* page. You need
+to select the correct assignment number. The types of files that you can
+submit are .cpp, or .h files. They have to compile and execute in
+*/general.asu.edu/* server. (You can access general.asu.edu by SSH, and
+login using your ASU UserID and password.)
+
+For C++, the files need to compile and execute with the commands:
+
+/g++ *.cpp/
+
+/./a.out/
+
+You program should be well commented and documented, make sure the first
+few lines of your program contain your name, your ASU email address, and
+a description of each file. While you will not be graded on style
+technique ("i++" or "i = i + 1") or indenting by 4 spaces or tabs, you
+should use indentation, good variable names, and clear, easy to read,
+and specific comments. (You will be graded on comments.)
+
+
+      Input
+
+The following files are sample test cases that will be used as input for
+your program (Right-click and use "Save As"):
+
+Test Case Input #1 <assignment5/input1.txt>
+Test Case Input #2 <assignment5/input2.txt>
+Test Case Input #3 <assignment5/input3.txt>
+
+Test Case Output #1 <assignment5/output1.txt>
+
+You can test your program as follows:
+
+For a C++ program, after compiling your files, one way is:
+
+/./a.out < input1.txt/
+
+or you can replace a.out with whichever your executable file is.
+
+
+      Error Handling
+
+Your program will be tested with other input besides the ones above,
+thus is expected to be robust.
+
+
+      Grading Criteria
+
+2 pts - Documentation (correct and complete code description and
+comments, header for each function/method)
+
+1 pt - Indentation and Spacing (easy to read)
+
+2 pts - The insertElement functions in HashTable class and LinkedList
+class are defined correctly
+
+2 pts - The searchElement functions in HashTable class and LinkedList
+class are defined correctly
+
+2 pts - The deleteElement functions in HashTable class and LinkedList
+class are defined correctly
+
+3 pts - Data are hashed uniformly with a good function
+
+18 pts - Correct output for the test cases
+
+ 
+
+Total points: 30
+
+ 
+
+ 
+
