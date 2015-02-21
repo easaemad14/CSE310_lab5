@@ -68,7 +68,7 @@ public:
 		strncpy(course_number, to_add, 6);
 		//I am not sure if there is an easier way to do this bit:
 		for(int i=7; to_add[i]!='\n'; i++){
-			course_name[i] = to_add[i];
+			course_name[i-7] = to_add[i];
 		}
 
 		newCourse->number = course_number;
@@ -78,7 +78,48 @@ public:
 		head->next = newCourse;
 	}
 
-	void searchElement();
+	void searchElement(const char to_find[]){
+		/* The requirements of this function were not fully elaborated and
+		 * I do not have enough information from the test cases to deduce
+		 * the answer to this question, but when we are deleting elems, it
+		 * is noted in the .txt file that we shall delete all instances (or
+		 * duplicates, if you will), so my implementation will only search
+		 * until either the class is found or we come to end of list. */
+		bool found = false;
+		char course_number[7];
+		memset(course_number, '\n', 7);
+		char course_name[MAX_LINE_LENGTH-6];
+		memset(course_name, '\n', MAX_LINE_LENGTH-6);
+		struct course *tmp; //We're not allocating, just looking at data
+
+		strncpy(course_number, to_find, 6);
+		for(int i=7; to_find[i]!='\n'; i++){
+			course_name[i-7] = to_find[i];
+		}
+
+		if(this->head){
+			if(this->head->next){
+				for(tmp=head->next;
+				tmp->next && !found;
+				tmp=tmp->next){
+					if(tmp->number.compare(course_number)==0 &&
+					tmp->name.compare(course_name)==0)
+						found=true;
+				}
+			}
+		}
+
+		//Now, if found==true, print we did find, else print not found
+		if(found){
+			std::cout << "The course " << course_number << " has ";
+			std::cout << " the title: " << course_name << std::endl;
+		}
+		else{
+			std::cout << "The course " << course_number;
+			std::cout << " not found" << std::endl;
+		}
+	}
+					
 	void deleteElement();
 
 	void setIndex(const unsigned int num){
@@ -121,8 +162,8 @@ public:
 		 * For my hash function, I will use the first six characters (the
 		 * three letters and three numbers) casted to an integer in hopes
 		 * to preserve an efficient table. */
-		//Come back to check EOF!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		if(course[MAX_LINE_LENGTH-1] != '\n') goto error;
+		if(!isalpha(course[0])) goto error; //Everything begins alpha!
 
 		unsigned int pos;
 		char to_cast[7]; //Don't forget the NULL bit!
@@ -133,14 +174,38 @@ public:
 		head[pos].insertElement(course);
 
 	error:
-		//nothing was allocated (not that it matters with c++)
-		std::cout << "\n==========================================";
-		std::cout << "you input buffer was corrupt when passed to\n";
-		std::cout << "hashtable::insertelement! please try again.\n";
-		std::cout << "===========================================\n";
+		//nothing was allocated
+		std::cout << "\n============================================";
+		std::cout << "Your input buffer was corrupt when passed to\n";
+		std::cout << "HashTable::insertElement! Please try again.\n";
+		std::cout << "============================================\n";
 	}
 
-	void searchElement();
+	void searchElement(const char course[MAX_LINE_LENGTH]){
+		/* This uses the same prescrived input as the last function
+		 * (HashTable::insertElement), so we will use the same error
+		 * checking method. We will also have to cast the course (like we
+		 * did in the last function) to find the hash to search. Then we
+		 * just pass the buffer to LinkedList::insertElement to do all of
+		 * the work! */
+		if(course[MAX_LINE_LENGTH-1] != '\n') goto error;
+		if(!isalpha(course[0])) goto error;
+
+		unsigned int pos;
+		char to_cast[7];
+
+		memset(to_cast, '\n', 7);
+		strncpy(to_cast, course, 6);
+		pos = hash((unsigned long)to_cast);
+		head[pos].searchElement(course);
+
+	error:
+		std::cout << "\n============================================";
+		std::cout << "Your input buffer was corrupt when passed to\n";
+		std::cout << "HashTable::searchElement! Please try again.\n";
+		std::cout << "============================================\n";
+	}
+
 	void deleteElement();
 
 	unsigned int hash(const unsigned long casted){

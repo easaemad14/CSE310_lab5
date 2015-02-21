@@ -21,7 +21,6 @@ void helpMenu(){
 	std::cout << "=======================================\n" << std::endl;
 }
 
-//What happens if EOF is reached????????????????????????????????????????????????????????????????????
 int main(int argc, char *argv[])
 {
 	unsigned int size;
@@ -30,7 +29,7 @@ int main(int argc, char *argv[])
 			Delete = "Delete", Display = "Display";
 
 	std::cin.get(buff, MAX_LINE_LENGTH);
-	if(!isdigit(buff[0])){
+	if(!isdigit(buff[0])){ //Print message and exit
 		std::cout << "To begin, please enter the size of the hash table ";
 		std::cout << "that you would like to create.\n" << std::endl;
 	}
@@ -51,7 +50,13 @@ int main(int argc, char *argv[])
 			} //Brackets for readability; don't really need them :^)
 		}
 		else if(Search.compare(buff) == 0){
-			//Do some different shit
+			for(get_next_line(buff, MAX_LINE_LENGTH);
+			Insertion.compare(buff)!=0 ||
+			Delete.compare(buff)!=0 ||
+			Display.compare(buff)!=0;
+			get_next_line(buff, MAX_LINE_LENGTH)){
+				table->searchElement(buff);
+			}
 		}
 		else if(Delete.compare(buff) == 0){
 			//More shit to do
@@ -64,7 +69,8 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	return 0;
+	delete table; //Can't beleive I forgot this line! C++ makes you lazy
+	exit(EXIT_SUCCESS);
 
 error: //Error fallthrough (Note: this is never called, so -Wall should warn you)
 	std::cout << "An error occured in the main function!\n\n";
