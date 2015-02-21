@@ -21,7 +21,7 @@ void helpMenu(){
 	std::cout << "=======================================\n" << std::endl;
 }
 
-
+//What happens if EOF is reached????????????????????????????????????????????????????????????????????
 int main(int argc, char *argv[])
 {
 	unsigned int size;
@@ -38,11 +38,17 @@ int main(int argc, char *argv[])
 	flush_buffer(buff, MAX_LINE_LENGTH);
 	HashTable *table = new HashTable(size);
 
-	for(std::cin.getline(buff, MAX_LINE_LENGTH); //Initialization
-	Display.compare(buff) != 0; //Condition
-	get_next_line(buff, MAX_LINE_LENGTH)){
+	for(get_next_line(buff, MAX_LINE_LENGTH); //Initialization
+	isalpha(buff[0]); //Condition (all input after size is alpha)
+	){ //The incrementor is handled in the loop
 		if(Insertion.compare(buff) == 0){
-			//Do some shit
+			for(get_next_line(buff, MAX_LINE_LENGTH);
+			Search.compare(buff)!=0 || ////////////////////////////////
+			Delete.compare(buff)!=0 || //The three break conditions
+			Display.compare(buff)!=0;  ////////////////////////////////
+			get_next_line(buff, MAX_LINE_LENGTH)){
+				table->insertElement(buff);
+			} //Brackets for readability; don't really need them :^)
 		}
 		else if(Search.compare(buff) == 0){
 			//Do some different shit
