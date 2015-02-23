@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 			//More shit to do
 		}
 		else if(Display.compare(buff) == 0){
-			//Display some shit
+			table->displayTable();
 		}
 		else{ //This is an error in input
 			helpMenu();

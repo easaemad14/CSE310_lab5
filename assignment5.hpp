@@ -16,7 +16,7 @@
 
 //Macros (yeah, I'm fancy!)
 //flush_buffer may be overkill since only one line, but good habit
-#define flush_buffer(B, S) memset(B, '\n', S)
+#define flush_buffer(B, S) memset(B, '\0', S)
 
 #define get_next_line(B, S) flush_buffer(B, S), std::cin.getline(B, S)
 
@@ -60,9 +60,7 @@ public:
 		 * main() and this is the end of the logic train, choo choo!). */
 
 		char course_number[7]; //Don't forget NULL terminator!
-		memset(course_number, '\n', 7);
 		char course_name[MAX_LINE_LENGTH-6]; //-7+1 for '\n'
-		memset(course_name, '\n', MAX_LINE_LENGTH-6);
 		struct course *newCourse = new course;
 
 		strncpy(course_number, to_add, 6);
@@ -87,9 +85,7 @@ public:
 		 * until either the class is found or we come to end of list. */
 		bool found = false;
 		char course_number[7];
-		memset(course_number, '\n', 7);
 		char course_name[MAX_LINE_LENGTH-6];
-		memset(course_name, '\n', MAX_LINE_LENGTH-6);
 		struct course *tmp; //We're not allocating, just looking at data
 
 		strncpy(course_number, to_find, 6);
@@ -121,6 +117,26 @@ public:
 	}
 					
 	void deleteElement();
+
+	void displayList(){
+		struct course *tmp;
+
+		std::cout << "index: " << this->index << ", ";
+		std::cout << "linked list size: " << this->length << std::endl;
+		if(!this->head)
+			std::cout << "The list is empty\n\n";
+		else{
+			for(tmp=this->head->next; tmp->next; tmp=tmp->next){
+				std::cout << "Course Number: " << tmp->number;
+				std::cout << ", Course Title: " << tmp->name;
+				std::cout << std::endl;
+			}
+			//Don't forget to print the last element in the list!
+			std::cout << "Course Number: " << tmp->number;
+			std::cout << ", Course Title: " << tmp->name;
+			std::cout << std::endl << std::endl;
+		}
+	}
 
 	void setIndex(const unsigned int num){
 		this->index = num;
@@ -168,7 +184,6 @@ public:
 		unsigned int pos;
 		char to_cast[7]; //Don't forget the NULL bit!
 
-		memset(to_cast, '\n', 7);
 		strncpy(to_cast, course, 6);
 		pos = hash((unsigned long)to_cast);
 		head[pos].insertElement(course);
@@ -194,7 +209,6 @@ public:
 		unsigned int pos;
 		char to_cast[7];
 
-		memset(to_cast, '\n', 7);
 		strncpy(to_cast, course, 6);
 		pos = hash((unsigned long)to_cast);
 		head[pos].searchElement(course);
@@ -207,6 +221,14 @@ public:
 	}
 
 	void deleteElement();
+
+	void displayTable(){
+		if(!this->head) return; //Empty tree
+
+		for(unsigned int i=0; i<this->size; i++){
+			head[i].displayList();
+		}
+	}
 
 	unsigned int hash(const unsigned long casted){
 		return (unsigned int)(casted % this->size); //Yeah, that simple!
