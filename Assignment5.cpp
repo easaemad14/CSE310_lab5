@@ -11,7 +11,7 @@
 void helpMenu(){
 	std::cout << "To begin, please enter the desired size of the hash ";
 	std::cout << "table. Then, use the following commands in order to ";
-	std::cout << "modify the list: \n\n";
+	std::cout << "modify the list (case sensitive): \n\n";
 
 	std::cout << "=======================================\n";
 	std::cout << " * \"Insertion\" to insert a new class" << std::endl;
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 	HashTable *table = new HashTable(size);
 
 	for(get_next_line(buff, MAX_LINE_LENGTH); //Initialization
-	isalpha(buff[0]); //Condition (all input after size is alpha)
+	isalpha(buff[0]) && Display.compare(buff)!=0; //Condition (all input after size is alpha)
 	){ //The incrementor is handled in the loop
 		if(Insertion.compare(buff) == 0){
 			for(get_next_line(buff, MAX_LINE_LENGTH);
@@ -59,15 +59,20 @@ int main(int argc, char *argv[])
 			}
 		}
 		else if(Delete.compare(buff) == 0){
-			//More shit to do
-		}
-		else if(Display.compare(buff) == 0){
-			table->displayTable();
+			for(get_next_line(buff, MAX_LINE_LENGTH);
+			Insertion.compare(buff)!=0 ||
+			Display.compare(buff)!=0 ||
+			Search.compare(buff)!=0;
+			get_next_line(buff, MAX_LINE_LENGTH)){
+				table->deleteElement(buff);
+			}
 		}
 		else{ //This is an error in input
 			helpMenu();
 		}
 	}
+	//Once we have exited the loop, display the table, and exit
+	table->displayTable();
 
 	delete table; //Can't beleive I forgot this line! C++ makes you lazy
 	exit(EXIT_SUCCESS);
