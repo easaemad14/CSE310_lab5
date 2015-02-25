@@ -71,9 +71,9 @@ public:
 
 		newCourse->number = course_number;
 		newCourse->name = course_name;
-		if(head) newCourse->next = head->next;
+		if(head) newCourse->next = head;
 		else newCourse->next = NULL;
-		head->next = newCourse;
+		head = newCourse;
 	}
 
 	void searchElement(const char to_find[]){
@@ -94,11 +94,15 @@ public:
 		}
 
 		if(this->head){
-			for(tmp=head->next; tmp->next && !found; tmp=tmp->next){
+			for(tmp=head; tmp->next && !found; tmp=tmp->next){
 				if(tmp->number.compare(course_number)==0 &&
 				tmp->name.compare(course_name)==0)
 					found=true;
 			}
+			//The loop breaks at last elem (need to check that too)
+			if(tmp->number.compare(course_number)==0 &&
+			tmp->name.compare(course_name)==0)
+				found=true;
 		}
 
 		//Now, if found==true, print we did find, else print not found
@@ -124,7 +128,19 @@ public:
 		}
 
 		if(this->head){
-			for(tmp=head; tmp->next; tmp=tmp->next){
+			//First we need to check head element, which may change!
+			while(this->head->name.compare(course_name)==0 &&
+			this->head->number.compare(course_number)==0){
+				exists=true;
+				del=head;
+				if(!this->head->next) head=NULL;
+				else this->head=this->head->next;
+				delete del;
+				this->length--;
+			}
+		}
+		if(this->head){ //Can become NULL after while loop
+			for(tmp=this->head; tmp->next; tmp=tmp->next){
 				if(tmp->next->name.compare(course_name)==0 &&
 				tmp->next->number.compare(course_number)==0){
 					exists = true;
@@ -132,6 +148,7 @@ public:
 					if(del->next) tmp->next = del->next;
 					else tmp->next = NULL;
 					delete del;
+					this->length--;
 				}
 			}
 		}
@@ -154,7 +171,7 @@ public:
 		if(!this->head)
 			std::cout << "The list is empty\n\n";
 		else{
-			for(tmp=this->head->next; tmp->next; tmp=tmp->next){
+			for(tmp=this->head; tmp->next; tmp=tmp->next){
 				std::cout << "Course Number: " << tmp->number;
 				std::cout << ", Course Title: " << tmp->name;
 				std::cout << std::endl;
@@ -226,17 +243,26 @@ public:
 
 		strncpy(to_cast, course, 6);
 		pos = hash((unsigned long)to_cast);
+		//A little more error checking never hurt anyone
+		if(pos >= this->size) goto hash_error;
 		head[pos].insertElement(course);
+
+		return; //Don't want to fallthrough to errors!
 
 	error:
 		//nothing was allocated
-		std::cout << "\n============================================";
+		std::cout << "\n============================================\n";
 		std::cout << "Your input buffer was corrupt when passed to\n";
 		std::cout << "HashTable::insertElement! Please try again.\n";
 		std::cout << "============================================\n";
+	hash_error:
+		std::cout << "\n===========================================\n";
+		std::cout << "HashTable::hash() returned an index that is\n";
+		std::cout << "out of bounds! This needs to be addressed!\n";
+		std::cout << "===========================================\n";
 	}
 
-	void searchElement(const char course[MAX_LINE_LENGTH]){
+	void searchElement(const char course[]){
 		/* This uses the same prescrived input as the last function
 		 * (HashTable::insertElement), so we will use the same error
 		 * checking method. We will also have to cast the course (like we
@@ -253,14 +279,16 @@ public:
 		pos = hash((unsigned long)to_cast);
 		head[pos].searchElement(course);
 
+		return;
+
 	error:
-		std::cout << "\n============================================";
+		std::cout << "\n============================================\n";
 		std::cout << "Your input buffer was corrupt when passed to\n";
 		std::cout << "HashTable::searchElement! Please try again.\n";
 		std::cout << "============================================\n";
 	}
 
-	void deleteElement(const char course[MAX_LINE_LENGTH]){
+	void deleteElement(const char course[]){
 		/* More fun stuff! Let's start with some good old fashioned error
 		 * checking, and then let's remove some courses from the hash
 		 * table.
@@ -284,8 +312,10 @@ public:
 		pos = hash((unsigned long)to_cast);
 		head[pos].deleteElement(course);
 
+		return;
+
 	error:
-		std::cout << "\n============================================";
+		std::cout << "\n============================================\n";
 		std::cout << "Your input buffer was corrupt when passed to\n";
 		std::cout << "HashTable::deleteElement! Please try again!\n";
 		std::cout << "============================================\n";

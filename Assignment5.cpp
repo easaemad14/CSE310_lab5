@@ -13,28 +13,30 @@ void helpMenu(){
 	std::cout << "table. Then, use the following commands in order to ";
 	std::cout << "modify the list (case sensitive): \n\n";
 
-	std::cout << "=======================================\n";
+	std::cout << "=====================================\n";
 	std::cout << " * \"Insertion\" to insert a new class" << std::endl;
 	std::cout << " * \"Search\" to search for a class" << std::endl;
 	std::cout << " * \"Delete\" to delete a class" << std::endl;
 	std::cout << " * \"Display\" to display list and quit" << std::endl;
-	std::cout << "=======================================\n" << std::endl;
+	std::cout << "=====================================\n" << std::endl;
 }
 
 int main(int argc, char *argv[])
 {
 	unsigned int size;
-	char buff[MAX_LINE_LENGTH];
+	char buff[MAX_LINE_LENGTH+1];
 	std::string Insertion = "Insertion", Search = "Search",
 			Delete = "Delete", Display = "Display";
 
-	std::cin.get(buff, MAX_LINE_LENGTH);
-	if(!isdigit(buff[0])){ //Print message and exit
+	std::cout << "Please enter a hash table size:\n" << std::endl;
+	std::cin.getline(buff, MAX_LINE_LENGTH);
+	while(!isdigit(buff[0])){ //Print message until pos number is entered
 		std::cout << "To begin, please enter the size of the hash table ";
 		std::cout << "that you would like to create.\n" << std::endl;
+		get_next_line(buff, MAX_LINE_LENGTH);
 	}
-	else size = atoi(buff);
-	flush_buffer(buff, MAX_LINE_LENGTH);
+
+	size = atoi(buff);
 	HashTable *table = new HashTable(size);
 
 	for(get_next_line(buff, MAX_LINE_LENGTH); //Initialization
@@ -69,6 +71,7 @@ int main(int argc, char *argv[])
 		}
 		else{ //This is an error in input
 			helpMenu();
+			get_next_line(buff, MAX_LINE_LENGTH);
 		}
 	}
 	//Once we have exited the loop, display the table, and exit
