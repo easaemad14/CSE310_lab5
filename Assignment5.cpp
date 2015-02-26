@@ -10,7 +10,7 @@
 
 void helpMenu(){
 	std::cout << "To begin, please enter the desired size of the hash ";
-	std::cout << "table. Then, use the following commands in order to ";
+	std::cout << "table. Then, use the\n following commands in order to ";
 	std::cout << "modify the list (case sensitive): \n\n";
 
 	std::cout << "=====================================\n";
@@ -21,12 +21,10 @@ void helpMenu(){
 	std::cout << "=====================================\n" << std::endl;
 }
 
-int main(int argc, char *argv[])
+int main() //No parameters will be passed and if there are, we won't address them
 {
 	unsigned int size;
-	char buff[MAX_LINE_LENGTH+1];
-	std::string Insertion = "Insertion", Search = "Search",
-			Delete = "Delete", Display = "Display";
+	char buff[MAX_LINE_LENGTH + 1];
 
 	std::cout << "Please enter a hash table size:\n" << std::endl;
 	std::cin.getline(buff, MAX_LINE_LENGTH);
@@ -39,37 +37,41 @@ int main(int argc, char *argv[])
 	size = atoi(buff);
 	HashTable *table = new HashTable(size);
 
-	for(get_next_line(buff, MAX_LINE_LENGTH); //Initialization
-	isalpha(buff[0]) && Display.compare(buff)!=0; //Condition (all input after size is alpha)
-	){ //The incrementor is handled in the loop
-		if(Insertion.compare(buff) == 0){
-			for(get_next_line(buff, MAX_LINE_LENGTH);
-			Search.compare(buff)!=0 || ////////////////////////////////
-			Delete.compare(buff)!=0 || //The three break conditions
-			Display.compare(buff)!=0;  ////////////////////////////////
-			get_next_line(buff, MAX_LINE_LENGTH)){
+	//Now let's get the first line (command) and start having some fun!
+	get_next_line(buff, MAX_LINE_LENGTH);
+	while(isalpha(buff[0]) && strcmp(buff, "Display")!=0){
+		if(strcmp(buff, "Insertion") == 0){ //Case sensitive!
+			/* Today I learned that the comma deliminator isn't as cool
+			 * as I thought it was. I had to change my fancy macro, and
+			 * now my get_next_line command will not work in a for loop
+			 * without some modifications that I don't like the look
+			 * of. Therefore, you will have to suffer looking at all of
+			 * these unasthetic while loops :( */
+			get_next_line(buff, MAX_LINE_LENGTH);
+			for(; strcmp(buff, "Search")!=0;){ //Just showing off
 				table->insertElement(buff);
-			} //Brackets for readability; don't really need them :^)
+				get_next_line(buff, MAX_LINE_LENGTH);
+			}
+			//Once we are done, display the list
+			table->displayTable();
 		}
-		else if(Search.compare(buff) == 0){
-			for(get_next_line(buff, MAX_LINE_LENGTH);
-			Insertion.compare(buff)!=0 ||
-			Delete.compare(buff)!=0 ||
-			Display.compare(buff)!=0;
-			get_next_line(buff, MAX_LINE_LENGTH)){
+		else if(strcmp(buff, "Search") == 0){
+			get_next_line(buff, MAX_LINE_LENGTH);
+			while(strcmp(buff, "Delete")!=0){
 				table->searchElement(buff);
+				get_next_line(buff, MAX_LINE_LENGTH);
 			}
+			std::cout << std::endl;
 		}
-		else if(Delete.compare(buff) == 0){
-			for(get_next_line(buff, MAX_LINE_LENGTH);
-			Insertion.compare(buff)!=0 ||
-			Display.compare(buff)!=0 ||
-			Search.compare(buff)!=0;
-			get_next_line(buff, MAX_LINE_LENGTH)){
+		else if(strcmp(buff, "Delete") == 0){
+			get_next_line(buff, MAX_LINE_LENGTH);
+			while(strcmp(buff, "Display")!=0){
 				table->deleteElement(buff);
+				get_next_line(buff, MAX_LINE_LENGTH);
 			}
+			std::cout << std::endl;
 		}
-		else{ //This is an error in input
+		else if(strcmp(buff, "Display")!=0){ //This is an error in input
 			helpMenu();
 			get_next_line(buff, MAX_LINE_LENGTH);
 		}

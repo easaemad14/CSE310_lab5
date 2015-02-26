@@ -11,14 +11,29 @@
 #include <cstdlib> //For input manipulation
 #include <cstring> //For memset and strncpy
 
+
 //Room for 127 chars and a terminator
-#define MAX_LINE_LENGTH 128
+#define MAX_LINE_LENGTH 127
+
 
 //Macros (yeah, I'm fancy!)
-//flush_buffer may be overkill since only one line, but good habit
+//flush_buffer may be overkill since only one line, but it looks better
 #define flush_buffer(B, S) memset(B, '\0', S)
-
-#define get_next_line(B, S) flush_buffer(B, S), std::cin.getline(B, S)
+//Get clean line (flush and then getline) showing off CPP knowledge
+#define get_next_line(B, S) \
+	flush_buffer(B, S); std::cin.getline(B, S)
+//Check debug macro
+/* In school, they drill these somewhat silly rules into your head, like gotos
+ * should never be used and that every statement should be on a separate line
+ * for readability. There is a good reason to have some of these rules, and in
+ * general they serve a purpose. Unfortunately, they do not teach people to think,
+ * but rather to memorize shit and some of these people see my code and regurgitate
+ * all the stupid rules that they memorized from their programming class! 
+ *
+ * So yeah, I am gonna use a goto AND I'm gonna put it on the same line as my if
+ * statement. If this bothers you, please see the .jpg file associated with this
+ * project. That should make you feel better! */
+#define check(A) if(!A) goto error
 
 
 //Variables
@@ -27,6 +42,7 @@ struct course{
 	std::string name;
 	struct course *next;
 };
+
 
 //Classes
 class LinkedList
@@ -58,22 +74,14 @@ public:
 		/* See HashTable::insertElement for complete details on the format
 		 * of the user input (I built this from the top down, so started at
 		 * main() and this is the end of the logic train, choo choo!). */
-
-		char course_number[7]; //Don't forget NULL terminator!
-		char course_name[MAX_LINE_LENGTH-6]; //-7+1 for '\0'
 		struct course *newCourse = new course;
 
-		strncpy(course_number, to_add, 6);
-		//I am not sure if there is an easier way to do this bit:
-		for(int i=7; to_add[i]!='\0'; i++){
-			course_name[i-7] = to_add[i];
-		}
-
-		newCourse->number = course_number;
-		newCourse->name = course_name;
+		newCourse->number.assign(to_add, 6);
+		newCourse->name.assign(to_add, 7, MAX_LINE_LENGTH); //Don't worry!
 		if(head) newCourse->next = head;
 		else newCourse->next = NULL;
 		head = newCourse;
+		this->length++;
 	}
 
 	void searchElement(const char to_find[]){
@@ -84,82 +92,138 @@ public:
 		 * duplicates, if you will), so my implementation will only search
 		 * until either the class is found or we come to end of list. */
 		bool found = false;
-		char course_number[7];
-		char course_name[MAX_LINE_LENGTH-6];
-		struct course *tmp; //We're not allocating, just looking at data
+		std::string number, name;
 
-		strncpy(course_number, to_find, 6);
-		for(int i=7; to_find[i]!='\0'; i++){
-			course_name[i-7] = to_find[i];
-		}
+		struct course *tmp; //We're not allocating, just looking at data
+		number.assign(to_find, 6);
 
 		if(this->head){
 			for(tmp=head; tmp->next && !found; tmp=tmp->next){
-				if(tmp->number.compare(course_number)==0 &&
-				tmp->name.compare(course_name)==0)
+				if(tmp->number.compare(number)==0){
 					found=true;
+					name = tmp->name;
+				}
 			}
 			//The loop breaks at last elem (need to check that too)
-			if(tmp->number.compare(course_number)==0 &&
-			tmp->name.compare(course_name)==0)
+			if(tmp->number.compare(number)==0){
 				found=true;
+				name = tmp->name;
+			}
 		}
 
 		//Now, if found==true, print we did find, else print not found
 		if(found){
-			std::cout << "The course " << course_number << " has ";
-			std::cout << " the title: " << course_name << std::endl;
+			std::cout << "The course " << number << " has ";
+			std::cout << "the title: " << name << std::endl;
 		}
 		else{
-			std::cout << "The course " << course_number;
+			std::cout << "The course " << number;
 			std::cout << " not found" << std::endl;
 		}
 	}
 					
 	void deleteElement(const char to_delete[]){
 		bool exists = false;
-		char course_number[7];
-		char course_name[MAX_LINE_LENGTH-6];
 		struct course *tmp, *del; //We'll need two to keep track of pos
+		std::string number, name;
 
-		strncpy(course_number, to_delete, 6);
-		for(int i=7; to_delete[i]!='\0'; i++){
-			course_name[i-7] = to_delete[i];
-		}
+		number.assign(to_delete, 6);
+		name.assign(to_delete, 7, MAX_LINE_LENGTH);
 
 		if(this->head){
-			//First we need to check head element, which may change!
-			while(this->head->name.compare(course_name)==0 &&
-			this->head->number.compare(course_number)==0){
-				exists=true;
-				del=head;
-				if(!this->head->next) head=NULL;
-				else this->head=this->head->next;
-				delete del;
-				this->length--;
+			/* This bit is actually a little tricky. Let's say that you
+			 * had your head pointing to an element that you wanted to
+			 * delete. Okay, no problem, let's delete the head and set
+			 * head to whatever head->next points to! Obviously we will
+			 * check that head->next actually points to something, but
+			 * what if it points to another instance of the same class?
+			 * 
+			 * So we want to be able to recursively delete the class,
+			 * and I am going to put this in bold font because it needs
+			 * that much attention, WHICH REQUIRES CHECKING THE NAME
+			 * AND NUMBER ELEMENTS OF A POSSIBLY NULL POINTER! Yeah,
+			 * I think the logic on this is ugly too, but that's how it
+			 * came up in my head. And unfortunately for me, I don't
+			 * have the luxury of blaming my subconsious like the
+			 * fathers of melodic death metal In Flames
+			 * (http://www.azlyrics.com/lyrics/inflames/alias.html).
+			 * 
+			 * So here's my trick: we will traverse the list until we
+			 * find a class that doesn't match what we want to delete
+			 * and set that as the head, or until we can't traverse
+			 * anymore (NULL), at which point, we just delete the whole
+			 * list (KILL IT WITH FIRE). 
+			 *
+			 * Now you might be thinking, "Don't you think you are
+			 * overdoing it Easa? With the thinking and the 30 lines of
+			 * comments!" And you would have a point, but remember our
+			 * hash function uses the mod of the course number, so any
+			 * course with the same number, regardless of the field of
+			 * study, will have the same index! Therefore, any
+			 * duplicates are guaranteed to have the same index in our
+			 * HashTable! But I will agree, 30 lines is ridiculous! */
+			if(this->head->name.compare(name)==0 &&
+			this->head->number.compare(number)==0){
+				for(tmp=this->head; tmp->next &&
+				(tmp->name.compare(name)==0 &&
+				tmp->number.compare(number)==0);
+				tmp=tmp->next){} //Just traverse
+
+				if(!tmp->next){ //KILL IT WITH FIRE!
+					while(this->head->next){
+						exists=true;
+						del = this->head->next;
+						if(del->next)
+							head->next = del->next;
+						else head->next = NULL;
+						delete del;
+						this->length--;
+					}
+					exists=true;
+					delete this->head;
+					this->head = NULL;
+				}
+				else{ //Delete until you get to tmp
+					while(head!=tmp){
+						exists=true;
+						del=this->head;
+						this->head=this->head->next;
+						delete del;
+						this->length--;
+					}
+				}
 			}
 		}
+		/* Round 2! Honestly, this one isn't nearly as bad, but what I
+		 * learned from this one is that the flow of a for loop in C and
+		 * C++ will not check the condition after executing the statement
+		 * and before the increment. This means, if you delete the last
+		 * element of your list, your will run into a segmentation fault
+		 * trying to move your pointer to the next element your just de-
+		 * allocated. So don't do that ;) */
 		if(this->head){ //Can become NULL after while loop
-			for(tmp=this->head; tmp->next; tmp=tmp->next){
-				if(tmp->next->name.compare(course_name)==0 &&
-				tmp->next->number.compare(course_number)==0){
+			for(tmp=this->head; tmp->next;){
+				if(tmp->next->name.compare(name)==0 &&
+				tmp->next->number.compare(number)==0){
 					exists = true;
 					del = tmp->next;
-					if(del->next) tmp->next = del->next;
+					if(del->next) tmp->next=del->next;
 					else tmp->next = NULL;
 					delete del;
 					this->length--;
+					if(tmp->next) tmp=tmp->next;
 				}
+				else tmp=tmp->next;
 			}
 		}
 
 		if(exists){
-			std::cout << "Course Number " << course_number << " with ";
-			std::cout << "Title " << course_name << " is removed\n";
+			std::cout << "Course Number " << number << " with ";
+			std::cout << "Title " << name << " is removed\n";
 		}
 		else{
-			std::cout << "Course Number " << course_number << " with ";
-			std::cout << "Title " << course_name << " not found\n";
+			std::cout << "Course Number " << number << " with ";
+			std::cout << "Title " << name << " not found\n";
 		}
 	}
 
@@ -220,9 +284,8 @@ public:
 		 * letters delegating the field of study, Y representing the three
 		 * digit course number, and the class name following the '/'.
 		 *
-		 * For my hash function, I will use the first six characters (the
-		 * three letters and three numbers) casted to an integer in hopes
-		 * to preserve an efficient table. */
+		 * For my hash function, I will use the three digits of the class
+		 * number to preserve an efficient table. */
 
 		/* This next line is a line that you should see in all of my
 		 * functions to begin error checking. What this is doing is
@@ -235,14 +298,17 @@ public:
 		 * the user input into the buffer (not implementing a limit on the
 		 * amount of data that I stored). This is actually a common
 		 * security flaw known as buffer overflow! */
-		if(course[MAX_LINE_LENGTH-1] != '\0') goto error;
-		if(!isalpha(course[0])) goto error; //Everything begins alpha!
+		check(course[MAX_LINE_LENGTH] == '\0'); //See my fancy macro
+		check(isalpha(course[0])); //See the format comment above!
+		check(strlen(course) > 7); //Don't want out of bounds throws!
 
 		unsigned int pos;
-		char to_cast[7]; //Don't forget the NULL bit!
+		char to_cast[4]; //Don't forget NULL Terminator!
+		for(int i=3; i<6; i++){ //get the three numbers
+			to_cast[i-3] = course[i];
+		}
 
-		strncpy(to_cast, course, 6);
-		pos = hash((unsigned long)to_cast);
+		pos = hash(to_cast);
 		//A little more error checking never hurt anyone
 		if(pos >= this->size) goto hash_error;
 		head[pos].insertElement(course);
@@ -251,10 +317,11 @@ public:
 
 	error:
 		//nothing was allocated
-		std::cout << "\n============================================\n";
-		std::cout << "Your input buffer was corrupt when passed to\n";
-		std::cout << "HashTable::insertElement! Please try again.\n";
-		std::cout << "============================================\n";
+		std::cout << "\n==============================================\n";
+		std::cout << "Your input buffer was incorrect when passed \n";
+		std::cout << "to HashTable::insertElement! Please try again.\n";
+		std::cout << "==============================================\n";
+		return; //Same
 	hash_error:
 		std::cout << "\n===========================================\n";
 		std::cout << "HashTable::hash() returned an index that is\n";
@@ -269,14 +336,17 @@ public:
 		 * did in the last function) to find the hash to search. Then we
 		 * just pass the buffer to LinkedList::insertElement to do all of
 		 * the work! */
-		if(course[MAX_LINE_LENGTH-1] != '\0') goto error;
-		if(!isalpha(course[0])) goto error;
+		check(course[MAX_LINE_LENGTH] == '\0');
+		check(isalpha(course[0]));
+		check(strlen(course) > 5);
 
 		unsigned int pos;
-		char to_cast[7];
+		char to_cast[4];
 
-		strncpy(to_cast, course, 6);
-		pos = hash((unsigned long)to_cast);
+		for(int i=3; i<6; i++){
+			to_cast[i-3] = course[i];
+		}
+		pos = hash(to_cast);
 		head[pos].searchElement(course);
 
 		return;
@@ -302,14 +372,17 @@ public:
 		 * match with what was passed, otherwise it is probably user input
 		 * error. In a real life situation, I would make this more robust
 		 * since it should be assumed that errors of input are common). */
-		if(course[MAX_LINE_LENGTH-1] != '\0') goto error;
-		if(!isalpha(course[0])) goto error;
+		check(course[MAX_LINE_LENGTH] == '\0');
+		check(isalpha(course[0]));
+		check(strlen(course) > 7);
 
 		unsigned int pos;
-		char to_cast[7];
+		char to_cast[4];
 
-		strncpy(to_cast, course, 6);
-		pos = hash((unsigned long)to_cast);
+		for(int i=3; i<6; i++){
+			to_cast[i-3]=course[i];
+		}
+		pos = hash(to_cast);
 		head[pos].deleteElement(course);
 
 		return;
@@ -329,7 +402,7 @@ public:
 		}
 	}
 
-	unsigned int hash(const unsigned long casted){
-		return (unsigned int)(casted % this->size); //Yeah, that simple!
+	unsigned int hash(char cast[]){
+		return (atoi(cast) % this->size); //Yeah, that simple!
 	}
 };
