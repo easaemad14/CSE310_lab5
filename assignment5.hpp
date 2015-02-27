@@ -1,3 +1,5 @@
+#ifndef _ASSIGNMENT5_HPP_
+#define _ASSIGNMENT5_HPP_
 /**********************************************************************************
  *File: 	Assignment5.hpp
  *Author: 	Easa El Sirgany (easaemad14@gmail.com)
@@ -406,3 +408,4 @@ public:
 		return (atoi(cast) % this->size); //Yeah, that simple!
 	}
 };
+#endif //Define CPP guard
